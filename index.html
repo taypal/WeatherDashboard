@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <input type="text" id="cityName">
+    <button onclick="getWeather()">
+        Enter in a city
+    </button>
+    <div class="weatherResponse">
+
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        function getWeather() {
+            $('.weatherResponse').html('');
+            var cityName = $('#cityName').val();
+            var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=8fe105186902815f35a6f652158c03c9";
+            console.log(weatherURL);
+
+            // $.getJSON(weatherURL, weatherCallback);
+
+            var settings = {
+                "url": weatherURL,
+                "method": "GET",
+                "timeout": 0,
+            };
+
+            $.ajax(settings).done(function (response) {
+                weatherCallback(response.list);
+            });
+
+
+        }
+        function weatherCallback(weatherData) {
+            console.log(weatherData)
+            //start loop here
+            for (i = 0; i < weatherData.length; i++) {
+                // if statement
+                // if (weatherData[i].)
+                var cardData = {}
+                // cardData.cityName = weatherData.name;
+                cardData.weather = weatherData[i].weather[0].description;
+                cardData.windSpeed = weatherData[i].wind.speed;
+                cardData.temperature = weatherData[i].main.temp;
+                cardData.humidity = weatherData[i].main.humidity;
+                cardData.icon = weatherData[i].weather[0].icon;
+                // build card object from weatherData
+
+                // cardData.icon = "http://openweathermap.org/img/wn/" + response.weather.icon + "@2x.png"
+
+                // $('.weatherResponse').append("Current weather in " + cityName + " is " + weather + " with a wind speed of " + windSpeed + " the temperature is " + temperature + " with humidity of " + humidity);
+
+                // buildCard(cardData)
+
+                // < !-- < div class="card" style = "width: 18rem;" >
+                //     <h2></h2>
+                //     <img src="..." class="card-img-top" alt="...">
+                //         <div class="card-body">
+                //             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                //     card's content.</p>
+                //         </div> -->
+
+                var card = $('<div class="card" style="width: 18rem;">');
+                var h2 = $('<h2>');
+                h2.text(cardData.icon);
+                card.append(h2);
+                $(card).append('<img src="cardData.icon" class="card-img-top" alt="...">')
+
+                // card.text(cardData.weather);
+
+                $('.weatherResponse').append(card)
+                //end if
+            }
+            //end loop here 
+            console.log(cardData);
+        }
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

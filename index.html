@@ -41,8 +41,6 @@
             var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=8fe105186902815f35a6f652158c03c9";
             console.log(weatherURL);
 
-            // $.getJSON(weatherURL, weatherCallback);
-
             var settings = {
                 "url": weatherURL,
                 "method": "GET",
@@ -57,12 +55,11 @@
         }
         function weatherCallback(weatherData) {
             console.log(weatherData)
-            //start loop here
+
             for (i = 0; i < weatherData.length; i++) {
-                // if statement
-                // if (cardBody === cardData);
+
                 var cardData = {}
-                // cardData.cityName = weatherData.name;
+
                 cardData.date = weatherData[i].dt_txt;
                 cardData.weather = weatherData[i].weather[0].description;
                 cardData.windSpeed = weatherData[i].wind.speed;
@@ -70,22 +67,6 @@
                 cardData.humidity = weatherData[i].main.humidity;
                 cardData.icon = weatherData[i].weather[0].icon;
 
-
-                // build card object from weatherData
-
-                // cardData.icon = "http://openweathermap.org/img/wn/" + response.weather.icon + "@2x.png"
-
-                // $('.weatherResponse').append("Current weather in " + cityName + " is " + weather + " with a wind speed of " + windSpeed + " the temperature is " + temperature + " with humidity of " + humidity);
-
-                // buildCard(cardData)
-
-                // < !-- < div class="card" style = "width: 18rem;" >
-                //     <h2></h2>
-                //     <img src="..." class="card-img-top" alt="...">
-                //         <div class="card-body">
-                //             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                //     card's content.</p>
-                //         </div> -->
 
                 var card = $('<div class="card">');
                 var h6 = $('<h6>');
@@ -103,36 +84,12 @@
 
                 card.append(h6, p, p1, p2, p3);
 
-                // var cardBody = $('<div class="card-body" style="width: 18rem;">');
-
-
-                // cardBody.append(p);
-
-
-                // var card2 = $('<div class= "card2" style="width: 18rem;">');
-                // var p1 = $('<p>');
-
-                // p1.text(cardData.temperature);
-
-                // card2.append(p1);
-
-
-                // $(card).append('<img src="cardData.icon" class="card-img-top" alt="...">')
-
-                // card.text(cardData.weather);
 
                 $('.weatherResponse').append(card)
-                //end if
+
             }
-            //end loop here 
             console.log(cardData);
         }
-
-
-
-
-
-
 
     </script>
 </body>

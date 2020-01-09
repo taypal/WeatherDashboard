@@ -2,7 +2,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-width: 0;
+    width: 18rem;
+    height: 175px;
     word-wrap: break-word;
     background-color: lightblue;
     background-clip: border-box;

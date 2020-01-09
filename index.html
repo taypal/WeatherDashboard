@@ -60,7 +60,7 @@
             //start loop here
             for (i = 0; i < weatherData.length; i++) {
                 // if statement
-                if (cardBody === cardData);
+                // if (cardBody === cardData);
                 var cardData = {}
                 // cardData.cityName = weatherData.name;
                 cardData.date = weatherData[i].dt_txt;
@@ -87,18 +87,26 @@
                 //     card's content.</p>
                 //         </div> -->
 
-                var card = $('<div class="card" style="width: 18rem;">');
+                var card = $('<div class="card">');
                 var h6 = $('<h6>');
-                var h2 = $('<h2>');
+                var p = $('<p>');
+                var p1 = $('<p1>');
+                var p2 = $('<p>');
+                var p3 = $('<p>');
+
 
                 h6.text(cardData.date);
-                h2.text(cardData.weather);
-                card.append(h6, h2);
+                p.text("Current Weather: " + cardData.weather);
+                p1.text("Temperture: " + cardData.temperature);
+                p2.text("Wind Speed: " + cardData.windSpeed);
+                p3.text("Humidity: " + cardData.humidity);
 
-                var cardBody = $('<div class="card-body" style="width: 18rem;">');
-                var p = $('<p class="card-text">');
+                card.append(h6, p, p1, p2, p3);
 
-                cardBody.append(p);
+                // var cardBody = $('<div class="card-body" style="width: 18rem;">');
+
+
+                // cardBody.append(p);
 
 
                 // var card2 = $('<div class= "card2" style="width: 18rem;">');

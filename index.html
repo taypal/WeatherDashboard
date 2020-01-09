@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="../Weather Dashboard/style.css">
     <title>Document</title>
 
 </head>
@@ -59,14 +60,17 @@
             //start loop here
             for (i = 0; i < weatherData.length; i++) {
                 // if statement
-                // if (weatherData[i].)
+                if (cardBody === cardData);
                 var cardData = {}
                 // cardData.cityName = weatherData.name;
+                cardData.date = weatherData[i].dt_txt;
                 cardData.weather = weatherData[i].weather[0].description;
                 cardData.windSpeed = weatherData[i].wind.speed;
                 cardData.temperature = weatherData[i].main.temp;
                 cardData.humidity = weatherData[i].main.humidity;
                 cardData.icon = weatherData[i].weather[0].icon;
+
+
                 // build card object from weatherData
 
                 // cardData.icon = "http://openweathermap.org/img/wn/" + response.weather.icon + "@2x.png"
@@ -84,10 +88,28 @@
                 //         </div> -->
 
                 var card = $('<div class="card" style="width: 18rem;">');
+                var h6 = $('<h6>');
                 var h2 = $('<h2>');
-                h2.text(cardData.icon);
-                card.append(h2);
-                $(card).append('<img src="cardData.icon" class="card-img-top" alt="...">')
+
+                h6.text(cardData.date);
+                h2.text(cardData.weather);
+                card.append(h6, h2);
+
+                var cardBody = $('<div class="card-body" style="width: 18rem;">');
+                var p = $('<p class="card-text">');
+
+                cardBody.append(p);
+
+
+                // var card2 = $('<div class= "card2" style="width: 18rem;">');
+                // var p1 = $('<p>');
+
+                // p1.text(cardData.temperature);
+
+                // card2.append(p1);
+
+
+                // $(card).append('<img src="cardData.icon" class="card-img-top" alt="...">')
 
                 // card.text(cardData.weather);
 

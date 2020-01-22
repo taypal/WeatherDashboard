@@ -19,7 +19,9 @@
             Click here for the Weather
         </button>
         <div class="weatherResponse">
+            <div class="card-columns">
 
+            </div>
         </div>
     </div>
     </div>
@@ -39,9 +41,20 @@
 
         function getWeather() {
             $('.weatherResponse').html('');
+            var searchDiv = $('<div class="col-sm-2" id="cities">')
+            var div = $('<div class="card-columns">');
+            $('.weatherResponse').append(searchDiv);
+            $('.weatherResponse').append(div);
+
+
             var cityName = $('#cityName').val();
             var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=8fe105186902815f35a6f652158c03c9";
             console.log(weatherURL);
+
+            localStorage.setItem('cityName', cityName);
+            var storedCity = localStorage.getItem('cityName');
+            $('#cities').append(storedCity);
+
 
             var settings = {
                 "url": weatherURL,
@@ -70,12 +83,14 @@
                 cardData.icon = weatherData[i].weather[0].icon;
 
 
+
                 var card = $('<div class="card">');
                 var h6 = $('<h6>');
                 var p = $('<p>');
                 var p1 = $('<p1>');
                 var p2 = $('<p>');
                 var p3 = $('<p>');
+                var img = $("<img src='http://openweathermap.org/img/w/" + cardData.icon + ".png' alt='Icon depicting current weather.'>");
 
 
                 h6.text(cardData.date);
@@ -84,10 +99,9 @@
                 p2.text("Wind Speed: " + cardData.windSpeed);
                 p3.text("Humidity: " + cardData.humidity);
 
-                card.append(h6, p, p1, p2, p3);
+                card.append(h6, p, p1, p2, p3, img);
 
-
-                $('.weatherResponse').append(card)
+                $('.card-columns').append(card)
 
             }
             console.log(cardData);

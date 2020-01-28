@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Weather Dashboard/style.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Document</title>
 
 </head>
@@ -15,6 +15,7 @@
 <body>
     <div class="container">
         <input type="text" id="cityName">
+        <!--<datalist id="cityName"></datalist> -->
         <button onclick="getWeather()">
             Click here for the Weather
         </button>
@@ -51,9 +52,30 @@
             var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=8fe105186902815f35a6f652158c03c9";
             console.log(weatherURL);
 
-            localStorage.setItem('cityName', cityName);
-            var storedCity = localStorage.getItem('cityName');
-            $('#cities').append(storedCity);
+
+            var existingCityList = localStorage.getItem('cityList');
+            existingCityList = existingCityList ? existingCityList.split(',') : [];
+            existingCityList.push(cityName);
+
+            localStorage.setItem('cityList', existingCityList.toString());
+            var storedCity = localStorage.getItem('cityList');
+            alert("Cities Searched", storedCity);
+            // Create a new option element.
+            // var optionNode = document.createElement("option");
+            // console.log("Searched Cites Length", existingCityList.length);
+
+            // for (i = 0; i < existingCityList.length; i++) {
+
+            //  console.log("Individual City", existingCityList[i]);
+            // Set the value
+            // optionNode.value = existingCityList[i];
+
+            // create a text node and append it to the option element
+            // optionNode.appendChild(document.createTextNode(existingCityList[i]));
+
+            // Add the optionNode to the datalist
+            // document.getElementById("cityName").appendChild(optionNode);
+            // }
 
 
             var settings = {

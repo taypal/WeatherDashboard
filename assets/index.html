@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+​
 
 <head>
     <meta charset="UTF-8">
@@ -8,25 +9,39 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
-
+    <title>Weather Dashboard</title>
+    ​
 </head>
+​
 
 <body>
-    <div class="container">
-        <input type="text" id="cityName">
-        <!--<datalist id="cityName"></datalist> -->
-        <button onclick="getWeather()">
-            Click here for the Weather
-        </button>
-        <div class="weatherResponse">
-            <div class="card-columns">
+    <header class="container-fluid text-center text-white bg-secondary p-2 mb-5 mt-0">
+        <h1>Weather Dashboard</h1>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-lg-3 bg-light">
 
+                <div class="form-inline form-group">
+                    <input type="text" id="cityName">
+                    <!--<datalist id="cityName"></datalist> -->
+                    <button id="search-button">
+                        Click here for the Weather
+                    </button>
+                </div>
+                <!-- List of Cities Searched  -->
+                <ul class="list-group history"></ul>
+            </aside>
+
+            <div class="weatherResponse col-lg-9">
+                <label id="data-title">Weather Forecast for </label>
+                <div class="card-columns">
+
+                </div>
             </div>
         </div>
     </div>
-    </div>
-
+    ​
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
@@ -37,99 +52,127 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-
+    ​
     <script>
+        $(document).ready(function () {
+            $("#search-button").on("click", function () {
+                var searchValue = $("#search-value").val();
 
-        function getWeather() {
-            $('.weatherResponse').html('');
-            var searchDiv = $('<div class="col-sm-2" id="cities">')
-            var div = $('<div class="card-columns">');
-            $('.weatherResponse').append(searchDiv);
-            $('.weatherResponse').append(div);
+                // clear input box
+                $("#search-value").val("");
 
-
-            var cityName = $('#cityName').val();
-            var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=8fe105186902815f35a6f652158c03c9";
-            console.log(weatherURL);
-
-
-            var existingCityList = localStorage.getItem('cityList');
-            existingCityList = existingCityList ? existingCityList.split(',') : [];
-            existingCityList.push(cityName);
-
-            localStorage.setItem('cityList', existingCityList.toString());
-            var storedCity = localStorage.getItem('cityList');
-            alert("Cities Searched", storedCity);
-            // Create a new option element.
-            // var optionNode = document.createElement("option");
-            // console.log("Searched Cites Length", existingCityList.length);
-
-            // for (i = 0; i < existingCityList.length; i++) {
-
-            //  console.log("Individual City", existingCityList[i]);
-            // Set the value
-            // optionNode.value = existingCityList[i];
-
-            // create a text node and append it to the option element
-            // optionNode.appendChild(document.createTextNode(existingCityList[i]));
-
-            // Add the optionNode to the datalist
-            // document.getElementById("cityName").appendChild(optionNode);
-            // }
-
-
-            var settings = {
-                "url": weatherURL,
-                "method": "GET",
-                "timeout": 0,
-            };
-
-            $.ajax(settings).done(function (response) {
-                weatherCallback(response.list);
+                getWeather(searchValue);
             });
 
+            function makeRow(text) {
+                var li = $("<li>").addClass("list-group-item list-group-item-action").text(text);
+                $(".history").append(li);
+            }
 
-        }
-        function weatherCallback(weatherData) {
-            console.log(weatherData)
+            $(".history").on("click", "li", function () {
+                getWeather($(this).text());
+            });
 
-            for (i = 0; i < weatherData.length; i++) {
+            function getWeather(searchValue) {
 
-                var cardData = {}
+                var cityName;
 
-                cardData.date = weatherData[i].dt_txt;
-                cardData.weather = weatherData[i].weather[0].description;
-                cardData.windSpeed = weatherData[i].wind.speed;
-                cardData.temperature = weatherData[i].main.temp;
-                cardData.humidity = weatherData[i].main.humidity;
-                cardData.icon = weatherData[i].weather[0].icon;
+                $('.weatherResponse').html('');
+                var searchDiv = $('<div class="col-sm-2" id="cities">')
+
+                //Search Value is null then take input textbox value 
+                if (searchValue === null || searchValue === undefined) {
+                    cityName = $('#cityName').val();
+                }
+                else {
+                    cityName = searchValue;
+                }
+                // console.log("HIstory City", searchValue, " | ", cityName);
+
+                var headerLabel = $('<label id="data-title">Weather Forecast for - >')
+                headerLabel.text("Weather Forecast for -" + cityName);
+                var div = $('<div class="card-columns">');
+
+                $('.weatherResponse').append(searchDiv);
+                $('.weatherResponse').append(headerLabel);
+                $('.weatherResponse').append(div);
 
 
+                var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=8fe105186902815f35a6f652158c03c9";
+                console.log(weatherURL);
 
-                var card = $('<div class="card">');
-                var h6 = $('<h6>');
-                var p = $('<p>');
-                var p1 = $('<p1>');
-                var p2 = $('<p>');
-                var p3 = $('<p>');
-                var img = $("<img src='http://openweathermap.org/img/w/" + cardData.icon + ".png' alt='Icon depicting current weather.'>");
+                var settings = {
+                    "url": weatherURL,
+                    "method": "GET",
+                    "timeout": 0,
+                };
 
+                $.ajax(settings).done(function (response) {
+                    weatherCallback(response.list);
+                    // create history link for this search
+                    if (history.indexOf(cityName) === -1) {
+                        history.push(cityName);
+                        localStorage.setItem("cityList", JSON.stringify(history));
+                        //Add Rows to List on Left Hand side 
+                        makeRow(cityName);
+                    }
+                });
 
-                h6.text(cardData.date);
-                p.text("Current Weather: " + cardData.weather);
-                p1.text("Temperture: " + cardData.temperature);
-                p2.text("Wind Speed: " + cardData.windSpeed);
-                p3.text("Humidity: " + cardData.humidity);
-
-                card.append(h6, p, p1, p2, p3, img);
-
-                $('.card-columns').append(card)
 
             }
-            console.log(cardData);
-        }
+            function weatherCallback(weatherData) {
+
+                console.log("Call Back Function", weatherData);
+
+                for (i = 0; i < weatherData.length; i++) {
+
+                    var cardData = {}
+
+                    cardData.date = weatherData[i].dt_txt;
+                    cardData.weather = weatherData[i].weather[0].description;
+                    cardData.windSpeed = weatherData[i].wind.speed;
+                    cardData.temperature = weatherData[i].main.temp;
+                    cardData.humidity = weatherData[i].main.humidity;
+                    cardData.icon = weatherData[i].weather[0].icon;
+
+
+
+                    var card = $('<div class="card">');
+                    var h6 = $('<h6>');
+                    var p = $('<p>');
+                    var p1 = $('<p1>');
+                    var p2 = $('<p>');
+                    var p3 = $('<p>');
+                    var img = $("<img src='http://openweathermap.org/img/w/" + cardData.icon + ".png' alt='Icon depicting current weather.'>");
+
+
+                    h6.text(cardData.date);
+                    p.text("Current Weather: " + cardData.weather);
+                    p1.text("Temperture: " + cardData.temperature);
+                    p2.text("Wind Speed: " + cardData.windSpeed);
+                    p3.text("Humidity: " + cardData.humidity);
+
+                    card.append(h6, p, p1, p2, p3, img);
+
+                    $('.card-columns').append(card)
+
+                }
+                console.log(cardData);
+            }
+            // get current history, if any
+            var history = JSON.parse(localStorage.getItem("cityList")) || [];
+
+            if (history.length > 0) {
+                getWeather(history[history.length - 1]);
+            }
+
+            for (var i = 0; i < history.length; i++) {
+                makeRow(history[i]);
+            }
+        });
 
     </script>
 </body>
+​
 
 </html>
